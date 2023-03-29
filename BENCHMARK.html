@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Benchmark</title>
+  <STYLE>
+    body{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    div{
+      text-align: center;
+      font-family: Arial;
+      font-size: 15px;
+      font-weight: 700;
+      margin-top: 100px;
+      background-color: rgb(249, 255, 127);
+      width: 300px;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: -2px -2px orange;
+    }
+
+    div:hover{
+      box-shadow: 2px 2px 2px orange;
+    }
+
+    h1{
+      font-size: 40px;
+      text-align: center;
+      font-family: Arial;
+      font-weight: 700;
+      color: rgb(255, 204, 0);
+      text-shadow: 2px 2px 2px orange;
+    }
+  </STYLE>
+</head>
+<body>
+  <div>
+  <h1>BENCHMARK</h1>
+  <form>
+    <label for="nombre-archivo">Nombre del fichero fantasma:</label><br>
+    <input type="text" id="nombre-archivo" name="nombre-archivo"><br><br>
+    <button type="button" onclick="ejecutarBenchmark()">Enviar</button>
+  </form>
+</div>
+  <script>
+    async function ejecutarBenchmark() {
+      const nombreArchivo = document.getElementById('nombre-archivo').value;
+
+      // Definir el número de escrituras y lecturas que se realizarán
+      const numEscrituras = 1000;
+      const numLecturas = 1000;
+
+      let tiempoEscrituraTotal = 0; // variable para almacenar el tiempo total de escritura
+      let tiempoLecturaTotal = 0; // variable para almacenar el tiempo total de lectura
+
+      // Realizar operaciones de escritura en disco
+      for (let i = 0; i < numEscrituras; i++) {
+        const fileName = `${nombreArchivo}-${i}.txt`;
+        const startTime = performance.now();
+
+        // simulamos la escritura con un retraso de 1 milisegundo
+        await new Promise(resolve => setTimeout(resolve, 1));
+
+        const endTime = performance.now();
+        const tiempo = endTime - startTime;
+        console.log(`Tiempo de escritura para el archivo ${fileName}: ${tiempo} ms`);
+        tiempoEscrituraTotal += tiempo; // sumamos el tiempo al tiempo total de escritura
+      }
+
+      // Realizar operaciones de lectura en disco
+      for (let i = 0; i < numLecturas; i++) {
+        const fileName = `${nombreArchivo}-${i}.txt`;
+        const startTime = performance.now();
+
+        // simulamos la lectura con un retraso de 1 milisegundo
+        await new Promise(resolve => setTimeout(resolve, 1));
+
+        const endTime = performance.now();
+        const tiempo = endTime - startTime;
+        console.log(`Tiempo de lectura para el archivo  ${fileName}: ${tiempo} ms`);
+        tiempoLecturaTotal += tiempo; // sumamos el tiempo al tiempo total de lectura
+      }
+
+       // Mostrar el tiempo total de escritura y de lectura en el navegador
+      const resultado = document.createElement('p');
+      resultado.textContent = `Tiempo total de escritura: ${tiempoEscrituraTotal} ms\n & Tiempo total de lectura: ${tiempoLecturaTotal} ms`;
+      document.body.appendChild(resultado);
+    }
+  </script>
+</body>
+</html>
